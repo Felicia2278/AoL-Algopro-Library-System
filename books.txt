@@ -1,7 +1,1 @@
-Algorithm Programming|27|40
-Basic Statistic|37|40
-Character Building|40|40
-Discrete Math|40|40
-Indonesian|40|40
-Linear Algebra|40|40
-Program Design Method|29|40
+
