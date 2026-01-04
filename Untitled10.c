@@ -27,6 +27,8 @@ char books[totalBooks][250] = {"Algorithm Programming", "Basic Statistic", "Char
 int stockBooks[totalBooks] = {40, 40, 40, 40, 40, 40, 40};
 int maxStock[totalBooks] = {40, 40, 40, 40, 40, 40, 40};
 
+int borrowedCount[totalBooks] = {0};
+int returnedCount[totalBooks] = {0};
 
 int loginUser(char loggedName[], char loggedEmail[]);
 int isValidName(char name[]);
@@ -69,10 +71,13 @@ void pause(){
 	getchar();
 }
 
+/*  VALIDATION  */
 int isValidName(char name[]) {
-    for (int i = 0; name[i]; i++)
-        if (!isalpha(name[i]) && name[i] != ' ') return 0;
-    return (strlen(name) > 0 && strlen(name) <= 20); 
+int len=strlen(name);
+	if (len==0 || len > 20) return 0;
+	for (int i=0; i < len; i++) {
+		if ( !isalpha(name[i]) && name[i] !=' ') return 0;
+	}return 1;
 }
 
 int isValidEmail(char email[]) { //harus ada '@' dan domain binus
@@ -92,7 +97,7 @@ int isValidDate(char date[]) { //format DD/MM/YYYY
     return (strlen(date) == 10 && date[2] == '/' && date[5] == '/' && sscanf(date, "%d/%d/%d", &day, &month, &year) == 3 && day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900 && year <= 2100);
 }
 
-// USER AUTHENTICATION
+//USER AUTHENTICATION
 void userMainMenu() { 
 	system ("cls"); 
 	header();	
@@ -123,7 +128,8 @@ void registerUser() { /*  REGISTER  */
         scanf(" %[^\n]", newUser.password);
     } while (!isValidPassword(newUser.password) && printf("Invalid password! Must be 8-20 characters and contain at least one letter, one number, and one symbol.\n"));
     
-	users[totalUsers++]=newUser;
+	users[totalUsers]=newUser;
+	totalUsers++;
 	saveUsersToFile();
 	
 	printf("\n========================================\n");
@@ -484,6 +490,7 @@ void libraryMenu(char name[], char email[]) {
     int x;
     do {
         system("cls");
+        header();
         printf("\n ===== WELCOME, %s ! =====\n\n", name);
         printf("Please choose what you're gonna do next.\n");
         printf("1. Show all list of books\n");
